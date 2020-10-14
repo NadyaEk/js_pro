@@ -22,7 +22,7 @@ const products = [{
 
 const renderProduct = (id, title, price, img = 'https://picsum.photos/200/200?random') => {
   return `<div class="products__item">
-            <img class="products__img" src="${img}${id}" alt="">
+            <img class="products__img" src="${img}${id}" alt="img${id}">
             <h3 class="products__title">${title}</h3>
             <p class="products__price">${price}</p>
             <button class="by-btn">Добавить в корзину</button>
@@ -31,9 +31,18 @@ const renderProduct = (id, title, price, img = 'https://picsum.photos/200/200?ra
 
 const renderProducts = (list) => {
   const productList = list.map(item => renderProduct(item.id, item.title, item.price));
-  console.log(productList);
-  let [a, b, c, d] = productList;
-  document.querySelector('.products').innerHTML = `${a} ${b} ${c} ${d}`;
+  productList.forEach(function (element) {
+    document.querySelector('.products').insertAdjacentHTML("beforeend", element);
+  });
 };
 
 renderProducts(products);
+
+const btns = document.querySelectorAll(".by-btn");
+btns.forEach(function (event) {
+  event.addEventListener('click', addToCart)
+});
+
+function addToCart() {
+  console.log(this.parentElement);
+}
