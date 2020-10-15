@@ -10,7 +10,7 @@ class ProductList {
     this._goodsList = [];
     this._fetchGoods();
     this.renderGoodsList();
-    this.summ(this._goods);
+    this.summ();
   }
   /**
    * Этот метод получает откуда-то с сервера данные по продуктам
@@ -60,9 +60,9 @@ class ProductList {
   /**
    * Этот метод подсчитывает сумму всех товаров, передаваемого массива
    */
-  summ(arr) {
+  summ() {
     var summ = 0;
-    for (let product of arr) {
+    for (let product of this._goods) {
       summ = summ + product.price;
     }
     console.log(summ);
