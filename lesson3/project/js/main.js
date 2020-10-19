@@ -51,20 +51,20 @@ class ProductList {
     this.container = container;
     this._goods = [];
     this._goodsList = [];
-    this._fetchGoods();
-    this.renderGoodsList();
-    this.summ();
+    // this._fetchGoods();
+    // this.summ();
+    this.getProducts().then((data) => {
+      this._goods = [...data];
+      this.renderGoodsList();
+    });
   }
   /**
    * Этот метод получает откуда-то с сервера данные по продуктам
    */
 
 //     // this._fetchGoods();
-  this.#getProducts().then((data) => {
-      this.#goods = [...data];
-      // this.#goods = Array.from(data);
-      this.#render();
-    });
+
+  
 
 //     console.log(this.sum());
 //   }
@@ -78,7 +78,7 @@ class ProductList {
 //   //   });
 //   // }
 
-  #getProducts() {
+  getProducts() {
     return fetch(`${API}/catalogData.json`)
         .then(response => response.json())
         .catch((error) => {
@@ -86,29 +86,29 @@ class ProductList {
         });
   }
 
-  _fetchGoods() {
-    this._goods = [{
-        id: 1,
-        title: 'Notebook',
-        price: 20000
-      },
-      {
-        id: 2,
-        title: 'Mouse',
-        price: 1500
-      },
-      {
-        id: 3,
-        title: 'Keyboard',
-        price: 5000
-      },
-      {
-        id: 4,
-        title: 'Gamepad',
-        price: 4500
-      },
-    ];
-  }
+  // _fetchGoods() {
+  //   this._goods = [{
+  //       id: 1,
+  //       title: 'Notebook',
+  //       price: 20000
+  //     },
+  //     {
+  //       id: 2,
+  //       title: 'Mouse',
+  //       price: 1500
+  //     },
+  //     {
+  //       id: 3,
+  //       title: 'Keyboard',
+  //       price: 5000
+  //     },
+  //     {
+  //       id: 4,
+  //       title: 'Gamepad',
+  //       price: 4500
+  //     },
+  //   ];
+  // }
   /**
    * Этот метод в выбранную нами область (container) размещает сформированную разметку по каждому полученному товару.
    */
@@ -144,7 +144,7 @@ class ProductList {
  */
 class ProductItem {
   constructor(product, img = 'https://picsum.photos/200/200?random') {
-    this.title = product.title;
+    this.product_name = product.product_name;
     this.id = product.id;
     this.price = product.price;
     this.img = img;
@@ -153,7 +153,7 @@ class ProductItem {
     return `<div class="products__item" data-id = "${this.id}">
             <img class="products__img" src="${this.img}${this.id}" alt="img${this.id}">
             <div class="product__descr">
-              <h3 class="products__title">${this.title}</h3>
+              <h3 class="products__title">${this.product_name}</h3>
               <p class="products__price">${this.price} \u20bd</p>
               <button class="by-btn">Добавить в корзину</button>
             </div>  
@@ -167,11 +167,26 @@ new ProductList();
  */
 
 class Cart {
+
   constructor() {
-    this.productCartList = [];
-    this.addToCart();
-    this.renderCartList();
+    this._productCartList = [];
+    this._productCart = {};
+    this.getCartProducts().then((data) => {
+      this._productCart = {...data};
+      this.renderCartList();
+      
+    });
+    // this.addToCart();
+    // this.renderCartList();
   }
+  getCartProducts() {
+    return fetch(`${API}/getBasket.json`)
+        .then(response => response.json())
+        .catch((error) => {
+          console.log(error);
+        });
+  }
+
   /**
    * метод создает массив из элементов, добавленных в корзину, путем обработки нажатия на кнопку "добавить в корзину"
    */
@@ -182,7 +197,7 @@ class Cart {
   /**
    *  Этот метод будет подсчитывать стоимость товаров, помещенных в корзину
    */
-  summProducts(arr) {
+  summProducts() {
 
   }
   /**
@@ -190,14 +205,20 @@ class Cart {
    */
   renderCartList() {
     const cart = document.querySelector('.cart');
+    for (let element of this._productCart.contents) {
+      const cartElement = new CartElement(element);
+      this._productCartList.push(cartElement);
+    }
+      
+    
     // этот блок будет не виден пока не произойдет нажатия на кнопку "КОРЗИНА"
-    this.productCartList.forEach(function (element) {
-      cart.insertAdjacentHTML("beforeend", element.renderProduct());
+    this._productCartList.forEach(function (element) {
+      cart.insertAdjacentHTML("beforeend", element.renderCartElement());
     });
     /**
      * вызывает метод генерирующий разметку выбраного товара
      */
-    renderCartElement()
+    // renderCartElement()
 
     /**
      * добавляет разметку для сформированной суммы выбранных товаров и кнопку УДАЛИТЬ ТОВАР
@@ -216,26 +237,26 @@ class Cart {
  * Этот класс генерирует разметку для товара, положенного в корзину
  */
 
-class CartElement {
+class CartElement extends ProductItem {
   constructor(product, img = 'https://picsum.photos/100/100?random') {
-    this.title = product.title;
-    this.id = product.id;
-    this.price = product.price;
-    this.img = img;
+  super (product,img);
+  this.quantity = product.quantity;
+  // this.sum = sum;
+
   }
 
   /**
    * метод генерирующий разметку отдельного товара, добавленного в корзину
    */
   renderCartElement() {
-    return `<div class="cart">
-            <img class="products__img" src="${this.img}${this.id}" alt="img${this.id}">
-            <div class="product__descr">
-              <h3 class="products__title">${this.title}</h3>
-              <p class="products__price">${this.price} \u20bd</p>
-              <button class="by-btn">Добавить в корзину</button>
-            </div>  
-      </div>`
+    return `
+            <img class="cart__img" src="${this.img}" alt="some img">
+            <div class="cart__descr">
+              <h3 class="cart__title">${this.product_name}</h3>
+              <p class="cart__price">${this.price} \u20bd</p>
+              <p class="cart__quantity">количество:${this.quantity}<p>
+              <button class="delete-btn">Удалить из корзины</button>
+            </div>`
   }
 }
 new Cart();

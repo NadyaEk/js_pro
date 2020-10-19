@@ -13,6 +13,7 @@ body
 .logo
     text-transform: uppercase
     font-weight: bold
+    padding: 10px
 
 .products
     display: flex
@@ -40,6 +41,7 @@ body
     border-radius: 30px
     padding: 10px 30px
     transition: all 0.3s
+    margin: 10px
 
     &:hover
         transform: scale(1.05)
@@ -71,3 +73,30 @@ header
     border-bottom: 1px solid $_colorBack
     padding-bottom: 10px
     margin: 10px
+    background-color: #808080
+
+.cart 
+    display: flex
+    flex-direction: row
+    justify-content: space-around
+    margin: 20px
+    flex-wrap: wrap
+    &__item
+        padding: 10px
+        display: flex
+        flex-direction: row
+        border: 1px solid $_colorBack
+        align-items: center
+    &__img
+        padding: 10px
+    &__title
+        color: $_colorText
+        font-size: 20px
+        padding: 10px 0
+    &__price
+        color: $_colorActiv
+        font-size: 15px
+    &__quantity
+        color: $_colorActiv;
+        font-size: 15px
+

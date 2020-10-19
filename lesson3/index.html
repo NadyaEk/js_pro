@@ -8,6 +8,7 @@
     <div id="ajax-block"></div>
     <button id="ajax-get">Async get data</button>
     <script>
+        const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
         // let userJson = '{"name": "Ann", "age": 25, "isAdmin": true}';
         // // console.log(userJson);
         //
@@ -133,13 +134,16 @@
                 // xhr.send();
 
                 // ES6
-                fetch('tel.json')
+                
+                fetch(`${API}/catalogData.json`)
                     .then((response) => response.json())
                     .then((data) => {
                         console.log(data);
                         const block = document.getElementById('ajax-block');
-
-                        block.insertAdjacentHTML('beforeend', `<p>${data.name} - <strong>${data.tel}</strong></p>`);
+                        for (let element of data){
+block.insertAdjacentHTML('beforeend', `<p>${element.product_name} - <strong>${element.price}</strong></p>`);
+                        }
+                        
                     })
                     .catch((error) => {
                         console.log(error);
