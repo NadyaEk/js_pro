@@ -1,97 +1,205 @@
+const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
-// const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
+/**
+ * этот класс прототип для всех создаваемых списков на странице
+ */
+class List {
+  constructor (container, url, list = ListContext) {
+    this.container = container;
+    this.url = url;
+    this.list = list;
+    this._goods = [];
+    this._goodsList = [];
 
+  }
+  async _fetchGoods() {
+    return (await fetch(`${API}${this.url}`)
+    .then(response => response.json())
+    .catch((error) => {
+        console.log(error)
+      }));
+  }
+  handleData(data){
+        this._goods = [...data];
+        this.renderList();
+  }
+ renderList() {
 
-// //  Декларативный или функциональный подход
+  const block = document.querySelector(this.container);
+    for (let product of this._goods) {
+      const productElement = new this.list[this.constructor.name](product);
+      this._goodsList.push(productElement);
+      block.insertAdjacentHTML("beforeend", productElement.renderItem());
+    };  
+ }
+ summ() {
+    var summ = 0;
+    for (let product of this._goods) {
+      summ = summ + product.price;
+    }
+    return summ;
+  }
 
-// /** Этот класс формирует список продуктов и выводит их в определенном месте документа.  В него можно передать селектор с наименованием области выведения списка продуктов. Сейчас по умолчанию это '.products' 
-//  */
+}
+/**
+ * Этот класс прототип для всех элементов списка
+ */
+class ListItem {
+  constructor (product,img) {
+    this.product = product;
+    this.id = product.id_product;
+    this.title = product.product_name;
+    this.price = product.price;
+    this.img = img;
+  }
+  renderItem(){
+    return``;
+  }
+}
 
-// class ProductList {
-//   constructor(container = '.products') {
-//     this.container = container;
-//     this._goods = [];
-//     this._goodsList = [];
+/** Этот класс наследуется от класса List
+ */
+
+class ProductList extends List {
+  constructor(container = '.products', url = '/catalogData.json') {
+    super(container, url);
+    this._fetchGoods()
+    .then(data => this.handleData(data));
+  }
+}
+class ProductItem extends ListItem {
+  constructor(product,img = 'https://picsum.photos/200/200?random'){
+    super(product,img);  
+  }
+  renderItem() {
+    return `<div class="products__item" data-id = "${this.id}">
+            <img class="products__img" src="${this.img}${this.id}" alt="img${this.id}">
+            <div class="product__descr">
+              <h3 class="products__title">${this.title}</h3>
+              <p class="products__price">${this.price} \u20bd</p>
+              <button class="by-btn">Добавить в корзину</button>
+            </div>  
+      </div>`;
+  }
+}
+
+class CartList extends List {
+  constructor (container = '.cart', url = '/getBasket.json') {
+    super(container, url);
+    this._fetchGoods()
+    .then(data => this.handleData(data.contents));
+  }
+// renderList(data){
+//   const cart = document.querySelector('.cart');
+//     for (let element of data) {
+//       const cartElement = new CartItem(element);
+//       this._goodsList.push(cartElement);
+//     }
+//   this._goodsList.forEach(function (element) {
+//       cart.insertAdjacentHTML("beforeend", element.renderItem());
+//     });  
+// }
+}
+
+class CartItem extends ListItem {
+  constructor (product,img = 'https://picsum.photos/100/100?random'){
+  super(product,img)
+  this.quantity = product.quantity;
+  // this.renderItem();
+  }
+  renderItem() {
+    return `
+            <img class="cart__img" src="${this.img}${this.id}" alt="img${this.id}">
+            <div class="cart__descr">
+              <h3 class="cart__title">${this.title}</h3>
+              <p class="cart__price">${this.price*this.quantity} \u20bd</p>
+              <p 
+              <p class="cart__price_all">${this.price*this.quantity} \u20bd</p>
+              <p class="cart__quantity">количество:${this.quantity}<p>
+              <button class="delete-btn">&times;</button>
+            </div>`
+  }
+}
+const ListContext = {
+  ProductList:ProductItem,
+  CartList:CartItem,
+};
+let cart = new CartList;
+//let products = new ProductList;
+
+  /**
+   * Этот метод получает откуда-то с сервера данные по продуктам
+   */
+
 //     // this._fetchGoods();
-//     // this.summ();
-//     this.getProducts().then((data) => {
-//       this._goods = [...data];
-//       this.renderGoodsList();
-//     });
-//   }
-//   /**
-//    * Этот метод получает откуда-то с сервера данные по продуктам
-//    */
-
-// //     // this._fetchGoods();
 
   
 
-// //     console.log(this.sum());
-// //   }
-
-// //   // _fetchGoods() {
-// //   //   getRequest(`${API}/catalogData.json`, (data) => {
-// //   //     console.log(data);
-// //   //     this.#goods = JSON.parse(data);
-// //   //     this.#render();
-// //   //     console.log(this.#goods);
-// //   //   });
-// //   // }
-
-//   getProducts() {
-//     return fetch(`${API}/catalogData.json`)
-//         .then(response => response.json())
-//         .catch((error) => {
-//           console.log(error);
-//         });
+//     console.log(this.sum());
 //   }
 
 //   // _fetchGoods() {
-//   //   this._goods = [{
-//   //       id: 1,
-//   //       title: 'Notebook',
-//   //       price: 20000
-//   //     },
-//   //     {
-//   //       id: 2,
-//   //       title: 'Mouse',
-//   //       price: 1500
-//   //     },
-//   //     {
-//   //       id: 3,
-//   //       title: 'Keyboard',
-//   //       price: 5000
-//   //     },
-//   //     {
-//   //       id: 4,
-//   //       title: 'Gamepad',
-//   //       price: 4500
-//   //     },
-//   //   ];
+//   //   getRequest(`${API}/catalogData.json`, (data) => {
+//   //     console.log(data);
+//   //     this.#goods = JSON.parse(data);
+//   //     this.#render();
+//   //     console.log(this.#goods);
+//   //   });
 //   // }
-//   /**
-//    * Этот метод в выбранную нами область (container) размещает сформированную разметку по каждому полученному товару.
-//    */
-//   renderGoodsList() {
-//     /**
-//      * здесь мы обращаемся к классу ProductItem и создаем отдельный элемент товара
-//      */
-//     const block = document.querySelector(this.container);
-//     for (let product of this._goods) {
-//       const productElement = new ProductItem(product);
-//       this._goodsList.push(productElement);
-//     }
-//     /**
-//      * здесь мы добавляем на страницу разметку отдельного товара, созданного с помощью метода renderProduct класса ProductItem
-//      */
-//     this._goodsList.forEach(function (element) {
-//       block.insertAdjacentHTML("beforeend", element.renderProduct());
-//     });
-//   }
-//   /**
-//    * Этот метод подсчитывает сумму всех товаров
-//    */
+
+  // getProducts() {
+  //   return fetch(`${API}/catalogData.json`)
+  //       .then(response => response.json())
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  // }
+
+  // _fetchGoods() {
+  //   this._goods = [{
+  //       id: 1,
+  //       title: 'Notebook',
+  //       price: 20000
+  //     },
+  //     {
+  //       id: 2,
+  //       title: 'Mouse',
+  //       price: 1500
+  //     },
+  //     {
+  //       id: 3,
+  //       title: 'Keyboard',
+  //       price: 5000
+  //     },
+  //     {
+  //       id: 4,
+  //       title: 'Gamepad',
+  //       price: 4500
+  //     },
+  //   ];
+  // }
+  /**
+   * Этот метод в выбранную нами область (container) размещает сформированную разметку по каждому полученному товару.
+   */
+  // renderGoodsList() {
+    /**
+     * здесь мы обращаемся к классу ProductItem и создаем отдельный элемент товара
+     */
+    // const block = document.querySelector(this.container);
+    // for (let product of this._goods) {
+    //   const productElement = new ProductItem(product);
+    //   this._goodsList.push(productElement);
+    // }
+    /**
+     * здесь мы добавляем на страницу разметку отдельного товара, созданного с помощью метода renderProduct класса ProductItem
+     */
+    // this._goodsList.forEach(function (element) {
+    //   block.insertAdjacentHTML("beforeend", element.renderProduct());
+    // });
+  // }
+  /**
+   * Этот метод подсчитывает сумму всех товаров
+   */
 //   summ() {
 //     var summ = 0;
 //     for (let product of this._goods) {
@@ -100,9 +208,9 @@
 //     console.log(summ);
 //   }
 // }
-// /**
-//  * Класс генерирует сам продукт и его разметку!
-//  */
+/**
+ * Класс генерирует сам продукт и его разметку!
+ */
 // class ProductItem {
 //   constructor(product, img = 'https://picsum.photos/200/200?random') {
 //     this.product_name = product.product_name;
@@ -123,6 +231,23 @@
 // }
 // new ProductList();
 
+//   window.addEventListener('load', () => {
+//             document.querySelector('.btn-cart').addEventListener('click', () => {
+//               fetch(`${API}/catalogData.json`)
+//                     .then((response) => response.json())
+//                     .then((data) => {
+//                         console.log(data);
+//                         const block = document.getElementById('ajax-block');
+//                         for (let element of data){
+// block.insertAdjacentHTML('beforeend', `<p>${element.product_name} - <strong>${element.price}</strong></p>`);
+//                         }
+                        
+//                     })
+//                     .catch((error) => {
+//                         console.log(error);
+//                     });
+//             });
+//         });
 
 // /** Этот класс формирует список ВЫБРАННЫХ продуктов и выводит их в определенном месте документа при нажатии на кнопку КОРЗИНА.  
 //  */
@@ -254,93 +379,93 @@
 //   })
 // }
 
-const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
+// const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
 
-// –--------------------------------
+// // –--------------------------------
 
-class ProductList {
+// class ProductList {
 
-  constructor(container = '.products') {
-    this.container = container;
-    this.goods = [];
-    this._allProducts = [];
+//   constructor(container = '.products') {
+//     this.container = container;
+//     this.goods = [];
+//     this._allProducts = [];
 
-    this._fetchGoods()
-      .then(response => response.json())
-      .then((data) => {
-        this.goods = [...data];
-        this.render();
-      }).catch((error) => {
-        console.log(error)
-      });
+//     this._fetchGoods()
+//       .then(response => response.json())
+//       .then((data) => {
+//         this.goods = [...data];
+//         this.render();
+//       }).catch((error) => {
+//         console.log(error)
+//       });
 
-    // this.#getProducts().then((data) => {
-    //   this.#goods = [...data];
-    //   // this.#goods = Array.from(data);
-    //   this.#render();
-    // });
+//     // this.#getProducts().then((data) => {
+//     //   this.#goods = [...data];
+//     //   // this.#goods = Array.from(data);
+//     //   this.#render();
+//     // });
 
-    // console.log(this.sum());
-  }
+//     // console.log(this.sum());
+//   }
 
-  async _fetchGoods() {
-    return (await fetch(`${API}/catalogData.json`));
-  }
+//   async _fetchGoods() {
+//     return (await fetch(`${API}/catalogData.json`));
+//   }
 
-  // _fetchGoods(){
-  //   getRequest(`${API}/catalogData.json`).then((data) => {
-  //   this.goods = JSON.parse(data);
-  //     this.render();
-  //     console.log(this.goods);
-  // })
-  // .catch((error) => {
-  //   console.log(error)
-  // });
-  // }
-  // // #getProducts() {
-  //   return fetch(`${API}/catalogData.json`)
-  //       .then(response => response.json())
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  // }
+//   // _fetchGoods(){
+//   //   getRequest(`${API}/catalogData.json`).then((data) => {
+//   //   this.goods = JSON.parse(data);
+//   //     this.render();
+//   //     console.log(this.goods);
+//   // })
+//   // .catch((error) => {
+//   //   console.log(error)
+//   // });
+//   // }
+//   // // #getProducts() {
+//   //   return fetch(`${API}/catalogData.json`)
+//   //       .then(response => response.json())
+//   //       .catch((error) => {
+//   //         console.log(error);
+//   //       });
+//   // }
 
-  sum() {
-    return this.goods.reduce((sum, { price }) => sum + price, 0);
-  }
+//   sum() {
+//     return this.goods.reduce((sum, { price }) => sum + price, 0);
+//   }
 
-  render() {
-    const block = document.querySelector(this.container);
+//   render() {
+//     const block = document.querySelector(this.container);
 
-    for (let product of this.goods) {
-      const productObject = new ProductItem(product);
+//     for (let product of this.goods) {
+//       const productObject = new ProductItem(product);
 
-      this._allProducts.push(productObject);
+//       this._allProducts.push(productObject);
 
-      block.insertAdjacentHTML('beforeend', productObject.getGoodHTML());
-    }
-  }
-}
+//       block.insertAdjacentHTML('beforeend', productObject.getGoodHTML());
+//     }
+//   }
+// }
 
-class ProductItem {
-  constructor(product, img='https://placehold.it/200x150') {
-    this.title = product.product_name;
-    this.price = product.price;
-    this.id = product.id_product;
-    this.img = img;
-  }
+// class ProductItem {
+//   constructor(product, img='https://placehold.it/200x150') {
+//     this.title = product.product_name;
+//     this.price = product.price;
+//     this.id = product.id_product;
+//     this.img = img;
+//   }
 
-  getGoodHTML() {
-    return `<div class="product-item" data-id="${this.id}">
-              <img src="${this.img}" alt="Some img">
-              <div class="desc">
-                  <h3>${this.title}</h3>
-                  <p>${this.price} \u20bd</p>
-                  <button class="buy-btn">Купить</button>
-              </div>
-            </div>`;
-  }
-}
+//   getGoodHTML() {
+//     return `<div class="product-item" data-id="${this.id}">
+//               <img src="${this.img}" alt="Some img">
+//               <div class="desc">
+//                   <h3>${this.title}</h3>
+//                   <p>${this.price} \u20bd</p>
+//                   <button class="buy-btn">Купить</button>
+//               </div>
+//             </div>`;
+//   }
+// }
 
-const list = new ProductList();
+// const list = new ProductList();
