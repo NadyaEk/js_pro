@@ -12,12 +12,26 @@
         <div class="logo">Интернет-магазин</div>
         <div class="cart">
             <form action="#" class="search-form">
-                <input type="text" class="search-field">
-                <button class="btn-search" type="submit">
+                <input type="text" class="search-field" id="search">
+                <button class="btn-search" type="submit" @click="filter(value)">
                     <i class="fas fa-search"></i>
                 </button>
             </form>
-            <button class="btn-cart" type="button">Корзина</button>
+            <button class="btn-cart" type="button" @click="show = !show">Корзина</button>
+            <div class="cart-block"  v-if="show" >
+                <div class="cart-item"
+                v-for="product of productsCart" :key="product.id_product">
+                    <img :src="imgCart" alt="Some img">
+                    <div class="desc">
+                        <h3>{{product.product_name}}</h3>
+                        <p>{{product.price}}₽</p>
+                        <p>{{product.quantity}}₽</p>
+                        <p>Общая стоимость: {{product.quantity * product.price}}₽</p>
+                        <button class="del-btn" data-id="${this.id_product}">&times;</button>
+                </div>
+                </div>
+            </div>
+            <div class="cart-block" :class="{invisible: this.isVisibleCart}" v-else></div>
         </div>
     </header>
     <main>
