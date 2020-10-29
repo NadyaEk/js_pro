@@ -6,47 +6,105 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <form action="#">
-            
-                
+    <form action="#" id = "form">
             <fieldset><legend>Форма обратной связи</legend>
-                <label for="surname">Фамилия</label>
-                <input id="surname" placeholder="Фамилия" autofocus>
+                <label for="surname">Фамилия 
+                <input id="surname" name="surname" placeholder="Фамилия"></label>
                 <br>
-                <label for="name">Имя</label>
-                <input id="name" placeholder="Имя">
+                <label for="name">Имя
+                <input id="name" name="name" placeholder="Имя"></label>
                 <br>
-                <label for="phone">Телефон </label>
-                <input id="phone" placeholder="+7-000-000-00-00" required>
+                <label for="phone">Телефон 
+                <input id="phone" name="phone" placeholder="+7 (000) 000-00-00"></label>
                 <br>
-                <label for="email">Email</label>
-                <input id="email" placeholder="email@server.com">
+                <label for="email">Email
+                <input id="email" name="email" placeholder="email@server.com"></label>
                 <br> 
-                <label for="comments">Ваше сообщение</label>
-                <textarea id="comments"></textarea>
+                <label for="comments">Ваше сообщение
+                <textarea id="comments" name="comments"></textarea></label>
                 <br>
                 <input type="submit" value="Отправить информацию"></fieldset>
                 
     </form>
 <script>
-    window.addEventListener('load', () => {
-            document.onsubmit = () => {
-                let data = {
-                    surname: document.getElementById('.surname'),
-                    name: document.getElementById('.name'),
-                    phone: document.getElementById('.phone'),
-                    email: document.getElementById('.email'),
-                };
-                let regExp = /\S+[А-яа-я]/ig;
-                data.forEach(element => {
-                    if ((element == surname || element==name)&&(data.value.match(regExp).length>=0)) {
-                        console.log("данные введены верно");
-                    } else {
-                        console.log("Error");
-                    }
-                }); 
+    class Validator {
+        constructor(form) {
+            this.patterns = {
+                surname:/[a-zа-яё-]+/i,
+                name:/[a-zа-яё-]+/i,
+                phone:/\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}/,
+                email:/[\w_.-]+\@\w+\.[a-z]{2,4}/,
+            };
+            this.errors = {
+                surname:'Фамилия содержит только буквы',
+                name:'Имя содержит только буквы',
+                phone:'Телефон должен быть в формате +7 (000) 000-00-00',
+                email:'E-mail должен быть в формате mymail@mail.ru или my_mail@mail.ru или my.mail@mail.ru',
+            };
+            this.form = form;
+            this.errClass = 'errors';
+            this.valid = false;
+            this._validationForm ();
+        }
+        _validationForm (){
+            let errorAll = document.getElementById(this.form).querySelectorAll(`.${this.errClass}`);
+            for (let error of errorAll) {
+                error.remove(); //перед проверкой очищает поле подсказки 
+            };
+            let formFields = document.getElementById(this.form).getElementsByTagName('input');
+            for (let field of formFields) {
+                this._validate(field);
+            };
+            if (document.querySelectorAll('.invalid').length === 0) {
+                this.valid = true;
             }
-        })
+
+        }
+        _validate(field) {
+            if (this.patterns[field.name]) {
+                if (!this.patterns[field.name].test(field.value)){
+                    field.classList.add('invalid');
+                    this._addErrorMsg(field);
+                } else {
+                    if (field.classList.contains('invalid')){
+                        field.classList.remove('invalid');
+                        field.classList.add('valid');
+                    } else {
+                        field.classList.add('valid');
+                    }
+                }
+            }
+        }
+        _addErrorMsg(field) {
+            let error = `<div class = "${this.errClass}">${this.errors[field.name]}</div>`;
+            field.parentNode.insertAdjacentHTML("afterEnd",error);
+        }
+    }
+    window.addEventListener('load', () => {
+            document.getElementById("form").addEventListener('submit', event => {
+                const validation = new Validator('form');
+                if (!validation.valid) {
+                    event.preventDefault();
+                }
+            })
+        });
+    
+            //     let data = {
+            //         surname: document.getElementById('.surname'),
+            //         name: document.getElementById('.name'),
+            //         phone: document.getElementById('.phone'),
+            //         email: document.getElementById('.email'),
+            //     };
+            //     let regExp = /\S+[А-яа-я]/ig;
+            //     data.forEach(element => {
+            //         if ((element == surname || element==name)&&(data.value.match(regExp).length>=0)) {
+            //             console.log("данные введены верно");
+            //         } else {
+            //             console.log("Error");
+            //         }
+            //     }); 
+            // }
+        // })
     // Вариант 1
     // let regExp = new RegExp('выражение', 'флаги');
 

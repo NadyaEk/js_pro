@@ -1,10 +1,40 @@
 form
     padding: 10px
-    width: 600px
+    width: 450px
+    font-size: 19px
 
 label
-    padding: 10px
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: space-between
+    // width: 300px
+    //padding: 10px
+    // display: inline-block
+    text-align: justify
 
-input 
-    margin: 10px  
+input
+    margin: 10px 0
     padding: 5px  
+    width: 250px
+    font-size: 15px
+
+    &:valid
+        border: 1px solid green
+    &:invalid
+        border: 1px solid red       
+    
+textarea  
+    padding: 5px  
+    width: 250px
+    height: 100px
+    //margin-left: 15px
+
+.textarea
+    display: flex
+    align-items: center
+
+.errors
+    color: red
+    margin: 10px 0
+    
