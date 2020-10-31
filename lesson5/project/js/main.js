@@ -9,10 +9,11 @@ const app = new Vue({
         imgCatalog: 'https://placehold.it/200x150',
         imgCart: 'https://placehold.it/50x50',
         cartUrl: '/getBasket.json',
+        addCartUrl:'/addToBasket.json',
+        deleteCartUrl:'/deleteFromBasket.json',
         productsCart:[],
-        isVisibleCart:'display: none',
-        show: false,
-        searchLine: 'search.value',
+        isVisibleCart:false,
+        searchLine: '',
     },
     methods: {
         getJson(url) {
@@ -24,14 +25,42 @@ const app = new Vue({
         },
         addProduct(product) {
             console.log(product.id_product)
+            this.getJson(`${API}${this.addCartUrl}`)
+                .then(data => {
+                    if (data.result === 1) {
+                        let item = this.productsCart.find(el => el.id_product === product.id_product);
+                        if (item) {
+                            item.quantity++;
+                        } else {
+                            let newProduct = Object.assign({quantity:1},product);
+                            this.productsCart.push(newProduct);
+                        }
+                    } else {
+                        alert('error');
+                    }
+                }); 
+            
         },
-        init(container) {
-
-
+        removeProduct(product) {
+            this.getJson(`${API}${this.deleteCartUrl}`)
+                .then(data => {
+                    if (data.result === 1) {
+                        if (product.quantity > 1) {
+                            product.quantity--;
+                        } else {
+                            this.productsCart.splice(this.productsCart.indexOf(product),1);
+                        }
+                    } else {
+                        alert ('error');
+                    }
+                })
         },
-        filter(searchLine){
-            const regexp = new RegExp(searchLine, 'i');
+        filter(){
+            const regexp = new RegExp(this.searchLine, 'i');
+            console.log(this.products);
             this.filtered = this.products.filter(product => regexp.test(product.product_name));
+            console.log(this.filtered);
+            //this.products = [...this.filtered];
 
     //         this.allProducts.forEach(el => {
     //         const block = document.querySelector(`.product-item[data-id="${el.id_product}"]`);
@@ -52,6 +81,7 @@ const app = new Vue({
             .then(data => {
                 for (el of data) {
                     this.products.push(el);
+                    this.filtered.push(el);
                 }
             });
         this.getJson(`${API}${this.cartUrl}`)
@@ -72,10 +102,12 @@ const app = new Vue({
     beforeUpdate() {
         console.log('beforeUpdate');
         // this.filter(value);
+        if (this.filtered.length === 0) {
+
+        }
     },
     updated() {
         console.log('updated');
-        this.filter(value);
     },
     beforeDestroy() {
         console.log('beforeDestroy');

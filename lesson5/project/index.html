@@ -11,32 +11,33 @@
     <header>
         <div class="logo">Интернет-магазин</div>
         <div class="cart">
-            <form action="#" class="search-form">
-                <input type="text" class="search-field" id="search">
-                <button class="btn-search" type="submit" @click="filter(value)">
+            <form action="#" class="search-form" @submit.prevent="filter()">
+                <input type="text" class="search-field" id="search" v-model="searchLine">
+                <button class="btn-search" type="submit">
                     <i class="fas fa-search"></i>
                 </button>
             </form>
-            <button class="btn-cart" type="button" @click="show = !show">Корзина</button>
-            <div class="cart-block"  v-if="show" >
+            <button class="btn-cart" type="button" @click="isVisibleCart = !isVisibleCart">Корзина</button>
+            <div class="cart-block"  v-show="isVisibleCart" >
+                <p v-if="!productsCart.length">Корзина пуста</p>
                 <div class="cart-item"
                 v-for="product of productsCart" :key="product.id_product">
                     <img :src="imgCart" alt="Some img">
                     <div class="desc">
                         <h3>{{product.product_name}}</h3>
-                        <p>{{product.price}}₽</p>
-                        <p>{{product.quantity}}₽</p>
+                        <p>Стоимость за 1 шт: {{product.price}}₽</p>
+                        <p>Количество: {{product.quantity}} шт</p>
                         <p>Общая стоимость: {{product.quantity * product.price}}₽</p>
-                        <button class="del-btn" data-id="${this.id_product}">&times;</button>
+                        <button class="del-btn" data-id="${this.id_product}" @click="removeProduct(product)">&times;</button>
                 </div>
                 </div>
             </div>
-            <div class="cart-block" :class="{invisible: this.isVisibleCart}" v-else></div>
+            <!-- <div class="cart-block" v-else :class="{invisible: this.isVisibleCart}" ></div> -->
         </div>
     </header>
     <main>
         <div class="products">
-            <div class="product-item" v-for="product of products" :key="product.id_product">
+            <div class="product-item" v-for="product of filtered" :key="product.id_product">
                 <img :src="imgCatalog" alt="Some img">
                 <div class="desc">
                     <h3>{{product.product_name}}</h3>
