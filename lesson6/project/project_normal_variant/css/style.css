@@ -164,3 +164,7 @@ img {
     border: none;
     border-bottom: 2px solid #fafafa;
 }
+.error_box {
+    color: red;
+    padding: 10px;
+}
