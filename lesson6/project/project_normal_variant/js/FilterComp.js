@@ -17,6 +17,7 @@ Vue.component ('search', {
     //     console.log(this);
     //     innerFiltered = [...filtered];
     // },
+    
     template:`
         <form action="#" class="search-form" @submit.prevent="$root.$refs.products.filter">
                 <input type="text" class="search-field" :userSearch="userSearch">
