@@ -7,12 +7,6 @@ Vue.component('products', {
             imgCatalog: 'https://placehold.it/200x150',
         }
     },
-    methods: {
-        filter(){
-            let regexp = new RegExp(this.userSearch, 'i');
-            this.filtered = this.products.filter(el => regexp.test(el.product_name));
-        }
-    },
     mounted(){
         this.$parent.getJson(`${API + this.catalogUrl}`)
             .then(data => {
@@ -21,6 +15,12 @@ Vue.component('products', {
                     this.filtered.push(el);
                 }
             });
+    },
+    methods: {
+        filter(value){
+            let regexp = new RegExp(value, 'i');
+            this.filtered = this.products.filter(el => regexp.test(el.product_name));
+        }
     },
     template: `
         <div class="products">

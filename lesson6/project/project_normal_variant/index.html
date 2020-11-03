@@ -11,18 +11,12 @@
     <header>
         <div class="logo">Интернет-магазин</div>
         <div class="cart">
-            <!-- <form action="#" class="search-form" @submit.prevent="filter">
-                <input type="text" class="search-field" v-model="userSearch">
-                <button class="btn-search" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form> -->
-            <search ref="search">   </search>
+            <search ref="search"></search>
             <cart ref="cart"></cart>
         </div>
     </header>
     <main>
-       <!-- <error-box></error-box> -->
+       <error-box ref="error"></error-box>
         <products ref="products"></products>
     </main>
 </div>
@@ -31,6 +25,7 @@
     <script src="js/CartComp.js"></script>
     <script src="js/ProducComp.js"></script>
     <script src="js/FilterComp.js"></script>
+    <script src="js/ErrorComp.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
