@@ -1,24 +1,38 @@
-const stats = './server/db/stats.json';
+// const stat = require('./statistic');;
+const fs = require('fs');
+
 const add = (cart, req) => {
   cart.contents.push(req.body);
   cart.countGoods++;
+  fs.readFile('./server/db/stats.json', 'utf-8', (err, data) => {
+  if (!err) {
+    var stats = JSON.parse(data);
+    stats.contents.push({'action':'add','title':`${cart.contents.indexOf(req.body).product_name}`,'date':`${new Date()}`});
+    fs.writeFile('./server/db/stats.json', JSON.stringify(stats), (err) => {
+  })
+  }
+});
+  // stat(cart, 'add','./server/db/stats.json');
   return JSON.stringify(cart, null, 4);
 };
 const change = (cart, req) => {
   const find = cart.contents.find(el => el.id_product === +req.params.id);
   find.quantity += req.body.quantity;
+  // stat(cart, 'plus 1','./server/db/stats.json');
   return JSON.stringify(cart, null, 4);
 };
 const del = (cart, req) => {
   const find = cart.contents.find(el => el.id_product === +req.params.id);
   if (find.quantity > 1) {
     find.quantity -= req.body.quantity;
-    return JSON.stringify(cart, null, 4);
+    // stat(cart, 'minus 1','./server/db/stats.json');
+    //return JSON.stringify(cart, null, 4);
   } else {
     cart.contents.splice(cart.contents.indexOf(find), 1);
     cart.countGoods--;
-    return JSON.stringify(cart, null, 4);
-  }
+    // stat(cart, 'delete','./server/db/stats.json');
+  };
+  return JSON.stringify(cart, null, 4);
 };
 module.exports = {
   add,
