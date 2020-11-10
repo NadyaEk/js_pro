@@ -12,8 +12,9 @@ Vue.component('error-box', {
        } 
     },
   template: `
-    <div class="error_box">
-      <slot v-if='showError'>{{showText}}!</slot>
-    </div>
-  `
+    <div v-if='showError===true' class="error_box">
+      <div>{{showText}} <button class="del-btn" @click='{{showError = false}}'>&times;</button> 
+      </div>
+    </div>  
+    `
 })
