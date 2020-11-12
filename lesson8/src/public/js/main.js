@@ -1,4 +1,9 @@
-const app = new Vue({
+// import cart from './CartComp'
+// import products from './ProducComp'
+// import search from './SearchComp'
+// import error from './ErrorComp'
+
+const app = {
     el: '#app',
     data: {
         userSearch: '',
@@ -51,4 +56,6 @@ const app = new Vue({
     mounted() {
         console.log(this);
     }
-});
+};
+
+// export default app;
