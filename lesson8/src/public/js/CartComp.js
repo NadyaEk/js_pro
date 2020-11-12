@@ -51,13 +51,13 @@ Vue.component('cart', {
                 <p v-if="!cartItems.length">Корзина пуста</p>
                 <cart-item class="account_product" v-for="item of cartItems" 
                     :key="item.id_product"
-                    :cart-item="item" 
+                    :cartItem="item" 
                     :img="item.img_mini"
                     @remove="remove">
                 </cart-item>
             <div class="account_total">
                 <p>TOTAL</p>
-                <p>{{cartItem.account}}</p>
+                <p>{{cartItems.account}}</p>
             </div>
             <a href="checkout.html" class="account_checkout">Checkout</a>
             <a href="shopping_cart.html" class="account_go">Go to cart</a>
@@ -65,7 +65,7 @@ Vue.component('cart', {
     `
 });
 
-Vue.component('cartItem' = {
+Vue.component('cartItem', {
     props: ['cartItem', 'img'],
     template: `
          <div>
