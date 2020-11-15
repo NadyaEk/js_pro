@@ -1,3 +1,14 @@
 {
-   "account":0 
+    "amount": 46600,
+    "countGoods": 1,
+    "contents": [
+        {
+            "quantity":1,       
+            "id_product": 1,
+            "product_name": "Man white T-shirt",
+            "price": 32.00,
+            "img":"img/product_1.png",
+            "img_mini":"img/product_mini_1.png"
+         }
+    ]
 }
