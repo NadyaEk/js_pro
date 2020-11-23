@@ -5,7 +5,7 @@ const statist = (cart, action) => {
   fs.readFile('./server/db/stats.json', 'utf-8', (err, data) => {
   if (!err) {
     var stats = JSON.parse(data); 
-    stats.push({
+    stats.contents.push({
         'action':`${action}`,
         'title':`${cart.product_name}`,
         'date':`${new Date()}`

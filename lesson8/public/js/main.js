@@ -3,7 +3,7 @@
 // import search from './SearchComp'
 // import error from './ErrorComp'
 
-const app = {
+const app = new Vue({
     el: '#app',
     data: {
         userSearch: '',
@@ -56,6 +56,6 @@ const app = {
     mounted() {
         console.log(this);
     }
-};
+});
 
 // export default app;

@@ -1,56 +1,56 @@
 [
   {
     "id_product": 1,
-    "product_name": "Mango People T-shirt",
+    "product_name": "Man white T-shirt",
     "price": 32.00,
     "img":"img/product_1.png",
     "img_mini":"img/product_mini_1.png"
   },
   {
     "id_product": 2,
-    "product_name": "Mango People T-shirt",
+    "product_name": "Woman red T-shirt",
     "price": 36.00,
     "img":"img/product_2.png",
     "img_mini":"img/product_mini_2.png"
   },
   {
     "id_product": 3,
-    "product_name": "Mango People T-shirt",
+    "product_name": "Man Сoat",
     "price": 41.00,
     "img":"img/product_3.png",
     "img_mini":"img/product_mini_3.png"
   },
   {
     "id_product": 4,
-    "product_name": "Mango People T-shirt",
+    "product_name": "Woman White Blouse",
     "price": 28.00,
     "img":"img/product_4.png",
     "img_mini":"img/product_mini_4.png"
   },
   {
     "id_product": 5,
-    "product_name": "Mango People T-shirt",
+    "product_name": "Woman Striped Blouse",
     "price": 64.00,
     "img":"img/product_5.png",
     "img_mini":"img/product_mini_5.png"
   },
   {
     "id_product": 6,
-    "product_name": "Mango People T-shirt",
+    "product_name": "Man Grey Jacket",
     "price": 52.00,
     "img":"img/product_6.png",
     "img_mini":"img/product_mini_6.png"
   },
   {
     "id_product": 7,
-    "product_name": "Mango People T-shirt",
+    "product_name": "Man White Trousers",
     "price": 49.00,
     "img":"img/product_7.png",
     "img_mini":"img/product_mini_7.png"
   },
   {
     "id_product": 8,
-    "product_name": "Mango People T-shirt",
+    "product_name": "Man Blue Sweatshirt",
     "price": 51.00,
     "img":"img/product_8.png",
     "img_mini":"img/product_mini_8.png"
@@ -59,26 +59,26 @@
     "id_product": 9,
     "product_name": "Mango People T-shirt",
     "price": 38.00,
-    "img":"img/product_9.png",
-    "img_mini":"img/product_mini_9.png"
+    "img":"img/product_1.png",
+    "img_mini":"img/product_mini_1.png"
   },
   {
     "id_product": 10,
-    "product_name": "Mango People T-shirt",
+    "product_name": "Man Black Zip-Up Hoodie",
     "price": 40.00,
     "img":"img/product_10.png",
     "img_mini":"img/product_mini_10.png"
   },
   {
     "id_product": 11,
-    "product_name": "Mango People T-shirt",
+    "product_name": "Man Grey Jacket",
     "price": 44.00,
     "img":"img/product_11.png",
     "img_mini":"img/product_mini_11.png"
   },
   {
     "id_product": 12,
-    "product_name": "Mango People T-shirt",
+    "product_name": "Man Grey T-shirt",
     "price": 39.00,
     "img":"img/product_12.png",
     "img_mini":"img/product_mini_12.png"

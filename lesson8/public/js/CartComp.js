@@ -45,31 +45,30 @@ Vue.component('cart', {
             });
     },
     template:`
+
         <div>
-            <button class="btn-cart" type="button" @click="showCart = !showCart"><img src="img/cart.png" alt="cart"></button>
+            <button type="button" @click="showCart = !showCart">
+                <img src="img/cart.png" alt="cart">
+                CART
+            </button>
             <div class="account_box" v-show="showCart">
                 <p v-if="!cartItems.length">Корзина пуста</p>
                 <cart-item class="account_product" v-for="item of cartItems" 
                     :key="item.id_product"
                     :cart-item="item" 
-                    :img="item.img_mini"
                     @remove="remove">
                 </cart-item>
-            <div class="account_total">
-                <p>TOTAL</p>
-                <p>{{cartItem.account}}</p>
             </div>
-            <a href="checkout.html" class="account_checkout">Checkout</a>
-            <a href="shopping_cart.html" class="account_go">Go to cart</a>
-        </div>
+        </div>   
+    </div> 
     `
 });
 
-Vue.component('cartItem' = {
-    props: ['cartItem', 'img'],
+Vue.component('cart-item', {
+    props: ['cartItem'],
     template: `
-         <div>
-            <a href="#" class="account_link"><img :src="img" alt="product_mini" class="account_img"></a>
+         <div class="account_product>
+           <img :src="cartItem.img_mini" alt="product_mini" class="account_img"></a>
                             <div class="account_text">
                                 <h1 class="account_h1"><a href="#">{{cartItem.product_name}}</a></h1>
                                 <p class="account_rating">

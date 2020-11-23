@@ -58,7 +58,7 @@ Vue.component('product', {
                             </div>
                         </div>
                     </div>
-                    <a href="shopping_cart.html" class="product_cart" @click="cartAPI.addProduct(product)"><img class="product_cart_img" src="img/cart_white.png" alt="cart">Add to Cart</a>
+                    <a class="product_cart" @click="cartAPI.addProduct(product)"><img class="product_cart_img" src="img/cart_white.png" alt="cart">Add to Cart</a>
                 </div>
     `
  });
