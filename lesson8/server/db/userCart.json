@@ -1,17 +1,8 @@
 {
-    "amount": 46600,
-    "countGoods": 4,
+    "countGoods": 2,
     "contents": [
         {
             "quantity": 1,
-            "id_product": 1,
-            "product_name": "Man white T-shirt",
-            "price": 32,
-            "img": "img/product_1.png",
-            "img_mini": "img/product_mini_1.png"
-        },
-        {
-            "quantity": 2,
             "id_product": 2,
             "product_name": "Woman red T-shirt",
             "price": 36,
@@ -19,20 +10,12 @@
             "img_mini": "img/product_mini_2.png"
         },
         {
-            "quantity": 2,
-            "id_product": 3,
-            "product_name": "Man Сoat",
-            "price": 41,
-            "img": "img/product_3.png",
-            "img_mini": "img/product_mini_3.png"
-        },
-        {
             "quantity": 1,
-            "id_product": 4,
-            "product_name": "Woman White Blouse",
-            "price": 28,
-            "img": "img/product_4.png",
-            "img_mini": "img/product_mini_4.png"
+            "id_product": 1,
+            "product_name": "Man white T-shirt",
+            "price": 32,
+            "img": "img/product_1.png",
+            "img_mini": "img/product_mini_1.png"
         }
     ]
 }
